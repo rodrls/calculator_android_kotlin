@@ -205,9 +205,9 @@
                 android:layout_weight="1"
                 android:layout_height="100dp"/>
 
-            <androidx.appcompat.widget.AppCompatButton
+            <ImageButton
                 android:id="@+id/Limpar"
-                android:text="LIMPAR"
+                android:src="@drawable/ic_delete_24"
                 android:background="@drawable/background_button"
                 android:textColor="@color/white"
                 android:textSize="20dp"

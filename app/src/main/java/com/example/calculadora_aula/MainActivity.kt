@@ -3,6 +3,7 @@ package com.example.calculadora_aula
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 
 /*import com.example.calculadora_aula.databinding.ActivityMainBinding*/
@@ -38,6 +39,8 @@ class MainActivity : AppCompatActivity() {
 
         val botaoCE = findViewById<Button>(R.id.ce)
 
+        val botaoLimpar = findViewById<ImageButton>(R.id.Limpar)
+
         /*
         val botaoDivisao = findViewById<Button>(R.id.divisao)
         val botaoMultiplicacao= findViewById<Button>(R.id.multiplicacao)
@@ -47,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         /*
         val botaoPonto = findViewById<Button>(R.id.ponto)
         val botaoIgual = findViewById<Button>(R.id.igual)
-        val botaoLimpar = findViewById<Button>(R.id.Limpar)
+
         */
 
         botaoCE.setOnClickListener{
@@ -85,6 +88,11 @@ class MainActivity : AppCompatActivity() {
         botaoNove.setOnClickListener{
             valores.text = "${valores.text}9"
         }
+
+        botaoLimpar.setOnClickListener{
+            valores.text = valores.text.dropLast(1)
+        }
+
 
         /*
         botaoDivisao.setOnClickListener{
