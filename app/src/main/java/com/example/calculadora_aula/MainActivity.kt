@@ -1,31 +1,29 @@
 package com.example.calculadora_aula
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-
-/*import com.example.calculadora_aula.databinding.ActivityMainBinding*/
+import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
-
-    /* Classe private criada para iniciar o Binding*/
-    /*private lateinit var binding: ActivityMainBinding*/
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+     var num1 = 0
+     var num2 = 0
+    @SuppressLint("SetTextI18n")
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        /* PARA USAR o BINDING na MAIN ACTIVITY*/
-        /*binding = ActivityMainBinding.inflate(layoutInflater)*/
-
         setContentView(R.layout.activity_main)
 
-        val valores = findViewById<TextView>(R.id.valores)
-        /*
-        val valor2 = findViewById<TextView>(R.id.valor2)
-        val OP = findViewById<TextView>(R.id.operador)
-        */
+        val valorUm = findViewById<TextView>(R.id.valores)
+        val valorDois = findViewById<TextView>(R.id.valores2)
+        val operador = findViewById<TextView>(R.id.operadores)
+        val resultado = findViewById<TextView>(R.id.resultado)
+        var calculo: Int
+
+        val botaoCE = findViewById<Button>(R.id.ce)
         val botaoUm = findViewById<Button>(R.id.num1)
         val botaoDois = findViewById<Button>(R.id.num2)
         val botaoTres = findViewById<Button>(R.id.num3)
@@ -36,110 +34,236 @@ class MainActivity : AppCompatActivity() {
         val botaoOito = findViewById<Button>(R.id.num8)
         val botaoNove = findViewById<Button>(R.id.num9)
         val botaoZero = findViewById<Button>(R.id.num0)
-
-        val botaoCE = findViewById<Button>(R.id.ce)
-
         val botaoLimpar = findViewById<ImageButton>(R.id.Limpar)
-
-        /*
         val botaoDivisao = findViewById<Button>(R.id.divisao)
-        val botaoMultiplicacao= findViewById<Button>(R.id.multiplicacao)
+        val botaoMultiplicacao = findViewById<Button>(R.id.multiplicacao)
         val botaoSubtracao = findViewById<Button>(R.id.subtracao)
         val botaoSoma = findViewById<Button>(R.id.soma)
-        */
-        /*
         val botaoPonto = findViewById<Button>(R.id.ponto)
         val botaoIgual = findViewById<Button>(R.id.igual)
 
-        */
 
-        botaoCE.setOnClickListener{
-            valores.text = ""
-        }
-
-
-        botaoZero.setOnClickListener{
-            valores.text = "${valores.text}0"
-        }
-        botaoUm.setOnClickListener{
-            valores.text = "${valores.text}1"
-        }
-        botaoDois.setOnClickListener{
-            valores.text = "${valores.text}2"
-        }
-        botaoTres.setOnClickListener{
-            valores.text = "${valores.text}3"
-        }
-        botaoQuatro.setOnClickListener{
-            valores.text = "${valores.text}4"
-        }
-        botaoCinco.setOnClickListener{
-            valores.text = "${valores.text}5"
-        }
-        botaoSeis.setOnClickListener{
-            valores.text = "${valores.text}6"
-        }
-        botaoSete.setOnClickListener{
-            valores.text = "${valores.text}7"
-        }
-        botaoOito.setOnClickListener{
-            valores.text = "${valores.text}8"
-        }
-        botaoNove.setOnClickListener{
-            valores.text = "${valores.text}9"
+        botaoLimpar.setOnClickListener {
+            if (operador.text == "") {
+                if (valorUm.text != ""){
+                    valorUm.text = valorUm.text.dropLast(1)
+                    if(valorUm.text != ""){
+                        num1 = (valorUm.text as String).toInt()
+                    }else
+                        num1 = 0
+                }
+            }else if (operador.text != "") {
+                if (valorDois.text != "") {
+                    valorDois.text = valorDois.text.dropLast(1)
+                    if(valorDois.text != ""){
+                        num2 = (valorDois.text as String).toInt()
+                    }else
+                        num2 = 0
+                }else if(valorDois.text == ""){
+                    operador.text = ""
+                }
+            }
         }
 
-        botaoLimpar.setOnClickListener{
-            valores.text = valores.text.dropLast(1)
-        }
+            botaoPonto.setOnClickListener {
+                if (operador.text == "") {
+                    valorUm.text = "${valorUm.text}."
+                    num1 = (valorUm.text as String).toInt()
+                } else if (operador.text != "") {
+                    valorDois.text = "${valorDois.text}."
+                    num2 = (valorDois.text as String).toInt()
+                }
+            }
 
+            botaoIgual.setOnClickListener {
+                when (operador.text) {
+                    "+" -> {
+                        calculo = (num1 + num2)
+                        resultado.text = (calculo).toString()
+                    }
+                    "-" -> {
+                        calculo = (num1 - num2)
+                        resultado.text = (calculo).toString()
+                    }
+                    "*" -> {
+                        calculo = (num1 * num2)
+                        resultado.text = (calculo).toString()
+                    }
+                    "/" -> {
+                        calculo = (num1 / num2)
+                        resultado.text = (calculo).toString()
+                    }
+                }
+            }
 
-        /*
-        botaoDivisao.setOnClickListener{
-            OP.text = "${OP.text}/"
-        }
-        botaoMultiplicacao.setOnClickListener{
-            OP.text = "${OP.text}*"
-        }
-        botaoSubtracao.setOnClickListener{
-            OP.text = "${OP.text}-"
-        }
-        botaoSoma.setOnClickListener{
-            OP.text = "${OP.text}+"
-        }
-        */
+            botaoZero.setOnClickListener {
+                if (operador.text == "") {
+                    valorUm.text = "${valorUm.text}0"
+                    num1 = (valorUm.text as String).toInt()
+                } else if (operador.text != "") {
+                    valorDois.text = "${valorDois.text}0"
+                    num2 = (valorDois.text as String).toInt()
+                }
+            }
+            botaoUm.setOnClickListener {
+                if (operador.text == "") {
+                    valorUm.text = "${valorUm.text}1"
+                    num1 = (valorUm.text as String).toInt()
+                } else if (operador.text != "") {
+                    valorDois.text = "${valorDois.text}1"
+                    num2 = (valorDois.text as String).toInt()
+                }
+            }
+            botaoDois.setOnClickListener {
+                if (operador.text == "") {
+                    valorUm.text = "${valorUm.text}2"
+                    num1 = (valorUm.text as String).toInt()
+                } else if (operador.text != "") {
+                    valorDois.text = "${valorDois.text}2"
+                    num2 = (valorDois.text as String).toInt()
+                }
+            }
+            botaoTres.setOnClickListener {
+                if (operador.text == "") {
+                    valorUm.text = "${valorUm.text}3"
+                    num1 = (valorUm.text as String).toInt()
+                } else if (operador.text != "") {
+                    valorDois.text = "${valorDois.text}3"
+                    num2 = (valorDois.text as String).toInt()
+                }
+            }
+            botaoQuatro.setOnClickListener {
+                if (operador.text == "") {
+                    valorUm.text = "${valorUm.text}4"
+                    num1 = (valorUm.text as String).toInt()
+                } else if (operador.text != "") {
+                    valorDois.text = "${valorDois.text}4"
+                    num2 = (valorDois.text as String).toInt()
+                }
+            }
+            botaoCinco.setOnClickListener {
+                if (operador.text == "") {
+                    valorUm.text = "${valorUm.text}5"
+                    num1 = (valorUm.text as String).toInt()
+                } else if (operador.text != "") {
+                    valorDois.text = "${valorDois.text}5"
+                    num2 = (valorDois.text as String).toInt()
+                }
+            }
+            botaoSeis.setOnClickListener {
+                if (operador.text == "") {
+                    valorUm.text = "${valorUm.text}6"
+                    num1 = (valorUm.text as String).toInt()
+                } else if (operador.text != "") {
+                    valorDois.text = "${valorDois.text}6"
+                    num2 = (valorDois.text as String).toInt()
+                }
+            }
+            botaoSete.setOnClickListener {
+                if (operador.text == "") {
+                    valorUm.text = "${valorUm.text}7"
+                    num1 = (valorUm.text as String).toInt()
+                } else if (operador.text != "") {
+                    valorDois.text = "${valorDois.text}7"
+                    num2 = (valorDois.text as String).toInt()
+                }
+            }
+            botaoOito.setOnClickListener {
+                if (operador.text == "") {
+                    valorUm.text = "${valorUm.text}8"
+                    num1 = (valorUm.text as String).toInt()
+                } else if (operador.text != "") {
+                    valorDois.text = "${valorDois.text}8"
+                    num2 = (valorDois.text as String).toInt()
+                }
+            }
+            botaoNove.setOnClickListener {
+                if (operador.text == "") {
+                    valorUm.text = "${valorUm.text}9"
+                    num1 = (valorUm.text as String).toInt()
+                } else if (operador.text != "") {
+                    valorDois.text = "${valorDois.text}9"
+                    num2 = (valorDois.text as String).toInt()
+                }
+            }
 
-        /*
-        <TextView
-        android:id="@+id/operador"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="35sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.202"
-        tools:text="OP" />
+            botaoCE.setOnClickListener {
+                valorUm.text = ""
+                valorDois.text = ""
+                operador.text = ""
+                resultado.text = ""
+            }
+            botaoDivisao.setOnClickListener {
+                operador.text = ""
+                operador.text = "/"
+                if(valorUm.text != ""){
+                    if(valorDois.text != ""){
+                        valorUm.text = resultado.text
+                        num1 = (valorUm.text as String).toInt()
+                        operador.text = "/"
+                        valorDois.text = ""
+                        resultado.text = ""
+                    }
+                }
+            }
+            botaoMultiplicacao.setOnClickListener {
+                operador.text = ""
+                operador.text = "*"
+                if(valorUm.text != ""){
+                    if(valorDois.text != ""){
+                        valorUm.text = resultado.text
+                        num1 = (valorUm.text as String).toInt()
+                        operador.text = "*"
+                        valorDois.text = ""
+                        resultado.text = ""
+                    }
+                }
+            }
+            botaoSubtracao.setOnClickListener {
+                operador.text = ""
+                operador.text = "-"
+                if(valorUm.text != ""){
+                    if(valorDois.text != ""){
+                        valorUm.text = resultado.text
+                        num1 = (valorUm.text as String).toInt()
+                        operador.text = "-"
+                        valorDois.text = ""
+                        resultado.text = ""
+                    }
+                }
+            }
+            botaoSoma.setOnClickListener {
+                operador.text = ""
+                operador.text = "+"
+                if(valorUm.text != ""){
+                    if(valorDois.text != ""){
+                        valorUm.text = resultado.text
+                        num1 = (valorUm.text as String).toInt()
+                        operador.text = "+"
+                        valorDois.text = ""
+                        resultado.text = ""
+                    }
+                }
 
-    <TextView
-        android:id="@+id/valor2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="200dp"
-        android:layout_marginTop="10dp"
-        android:textSize="35sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.674"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.202"
-        tools:text="VALOR2" />
-
-    */
+            }
 
     }
 }
+/*
+botaoIgual.setOnClickListener {
+                if (operador.text == "+") {
+                    calculo = (num1 + num2)
+                    resultado.text = (calculo).toString()
+                } else if (operador.text == "-") {
+                    calculo = (num1 - num2)
+                    resultado.text = (calculo).toString()
+                } else if (operador.text == "*") {
+                    calculo = (num1 * num2)
+                    resultado.text = (calculo).toString()
+                } else if (operador.text == "/") {
+                    calculo = (num1 / num2)
+                    resultado.text = (calculo).toString()
+                }
+            }
+ */
+
